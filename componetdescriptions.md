@@ -7,6 +7,7 @@ A descriptions of the security requisits of each service that could not been sho
 - Use CRUD models for Deployment to ensure they are Deployded following the Security Requirements
 - Capture resources logs and send them to a SIEM/SOAR
 - Instaurate Security Policies to ensure incorrect configurations cannot be made and monitor resources configuration
+- Store secrets, keys and certificates on an EKS
 - Establish a rotation policy to rotate secrets, key and certificates regularly
 ## Service specific Security Requirements
 ### Autoescale groups
