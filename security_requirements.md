@@ -27,7 +27,7 @@ This document outlines the **security requirements** for various services in the
 - Perform **daily backups**.
 - Use **IAM roles** with instance profiles for database access to meet the **principle of least privilege**.
 - Enable **JIT access** for updates.
-- Ensure an **EDR solution** is running.
+- Ensure an **EDR solution** and a** Vulnerability Management** is running.
 
 ### **RDS**
 - Apply **daily backups**.
