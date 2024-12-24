@@ -16,7 +16,7 @@ This document outlines the **security requirements** for various services in the
 - **Data at rest** must be encrypted using **KMS** for managed key encryption.
 - Enable **GuardDuty** for all resources.
 - Ensure a **Disaster Recovery Plan** with established **RTO** and **RPO**.
-- - Use **AWS CloudTrail** to audit and investigate security incidents.
+- Use **AWS CloudTrail** to audit and investigate security incidents.
 
 ## **Service-Specific Security Requirements**
 ### **Auto Scaling Groups**
