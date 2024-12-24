@@ -1,41 +1,42 @@
-# Security Requirements
+# Security Requirements Summary
 
-%Write a short summary of whats comming.
+This document outlines the **security requirements** for various services in the architecture, including general security practices and service-specific guidelines to ensure the application is secure, resilient, and compliant with best practices.
 
-A descriptions of the security requisits of each service that could not been shown in the diagram
-## General security Requiremets
-- Use CRUD models for Deployment to ensure they are Deployded following the Security Requirements
-- Capture resources logs and send them to a SIEM/SOAR
-- Instaurate Security Policies to ensure incorrect configurations cannot be made and monitor resources configuration
-- Store secrets, keys and certificates on an EKS
-- Establish a rotation policy to rotate secrets, key and certificates regularly
-- Follow the principle of least privileged
-- TLS is required in all services with a minimum version of 1.2 (1.3 preferrly)
-- Data at rest should be encrupted using KMS for managed key encryption.
-- Guarduty shoud be enabled on all resources
-- There shoud be a Disaster recovery plan in place with a established RTO and RPO
-## Service specific Security Requirements
-### Autoescale groups
-- **CI/CD pipelines** should be in place for the EC2's code using a **shift left approach**
-- EC2 instances should be protected by an **EDR** solution
-- There should not be credentials hardcoded in the code, instead an **EKM** should be set
-- Disk Snapshots should be taken regularely and stored in two different regions
-- Daily backups
-- For accessing the DB **IAM Roles** with instances profiles should be used, ensuring the principle of least privileged is being met.
-- jit acces for updates
-- should have an EDR solution running on them
-### RDS
-- **Daily Backups** should be applied
-- Regular snapshots into two different regions
-- Communication using **IAM Roles**
-### Bastion Host
-- Limit Access via IAM Roles
-- Implement Multi-Factor Authentication (MFA) to access it
-- 
-### Fargate
-- Chosen solution for ECR and AKS due to task and pod isolation, high availability (automatically provides Autoscaling) and simplicity
-- Daily backups
-- Kubernetes should have an EDR solution running on them
+---
 
+## **General Security Requirements**
+- Use **CRUD models** for deployment to ensure security best practices are followed.
+- Capture **resource logs** and send them to a **SIEM/SOAR** system.
+- Implement **security policies** to prevent incorrect configurations and monitor resource settings.
+- Store **secrets**, **keys**, and **certificates** in **EKM**.
+- Establish a **rotation policy** for **secrets**, **keys**, and **certificates**.
+- Follow the **principle of least privilege**.
+- **TLS** (minimum version 1.2, preferably 1.3) is required across all services.
+- **Data at rest** must be encrypted using **KMS** for managed key encryption.
+- Enable **GuardDuty** for all resources.
+- Ensure a **Disaster Recovery Plan** with established **RTO** and **RPO**.
 
+## **Service-Specific Security Requirements**
+### **Auto Scaling Groups**
+- Implement **CI/CD pipelines** for EC2 code using a **shift-left approach**.
+- Protect EC2 instances with an **EDR** solution.
+- Avoid hardcoding credentials in the code; instead, use **EKM**.
+- Take **disk snapshots** of EC2 instances regularly and store them in two different regions.
+- Perform **daily backups**.
+- Use **IAM roles** with instance profiles for database access to meet the **principle of least privilege**.
+- Enable **JIT access** for updates.
+- Ensure an **EDR solution** is running.
 
+### **RDS**
+- Apply **daily backups**.
+- Regularly take **snapshots** and store them in two different regions.
+- Ensure access is only through **IAM roles**.
+
+### **Bastion Host**
+- Limit access using **IAM roles**.
+- Implement **Multi-Factor Authentication (MFA)** for access.
+
+### **Fargate**
+- Use **ECR** and **AKS** for **task** and **pod isolation**, **high availability**, and **auto-scaling**.
+- Perform **daily backups**.
+- Ensure **Kubernetes** has an **EDR solution** running.
