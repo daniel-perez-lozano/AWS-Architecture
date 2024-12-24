@@ -1,4 +1,4 @@
-# Security Requirements Summary
+# Security Requirements
 
 This document outlines the **security requirements** for various services in the architecture, including general security practices and service-specific guidelines to ensure the application is secure, resilient, and compliant with best practices.
 
