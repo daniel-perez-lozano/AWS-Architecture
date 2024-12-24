@@ -12,7 +12,8 @@ A descriptions of the security requisits of each service that could not been sho
 - Follow the principle of least privileged
 - TLS is required in all services with a minimum version of 1.2 (1.3 preferrly)
 - Data at rest should be encrupted using KMS for managed key encryption.
-- Guarduty shoud 
+- Guarduty shoud be enabled
+- There shoud be a Disaster recovery plan in place with a established RTO and RPO
 ## Service specific Security Requirements
 ### Autoescale groups
 - **CI/CD pipelines** should be in place for the EC2's code using a **shift left approach**
@@ -21,12 +22,18 @@ A descriptions of the security requisits of each service that could not been sho
 - Disk Snapshots should be taken regularely and stored in two different regions
 - Daily backups
 - For accessing the DB **IAM Roles** with instances profiles should be used, ensuring the principle of least privileged is being met.
+- jit acces for updates
 ### RDS
 - **Daily Backups** should be applied
 - Regular snapshots into two different regions
+- Communication using **IAM Roles**
 ### Bastion Host
 - Limit Access via IAM Roles
 - Implement Multi-Factor Authentication (MFA)
+### Fargate
+- Great for task and pod isolation
+- Automatically provides Autoscaling
+- 
 
 
 
