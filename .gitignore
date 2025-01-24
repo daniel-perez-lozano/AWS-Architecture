@@ -1,0 +1,6 @@
+# Ignore Terraform variable files
+*.tfvars
+*variables.rf
+*.terraform*
+Architecture/.terraform/*
+*.terraform/providers/registry.terraform.io/hashicorp/aws/5.83.0/windows_amd64/terraform-provider-aws_v5.83.0_x5.exe
