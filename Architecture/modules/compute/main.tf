@@ -29,7 +29,7 @@ variable "key_pair" {
 }
 
 resource "aws_launch_configuration" "launch_config_app" {
-  name          = "app-launch-configuration"
+  name_prefix   = "app-launch-configuration"
   image_id      = var.ami
   instance_type = var.instance_type
   key_name      = var.key_pair

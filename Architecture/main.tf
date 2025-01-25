@@ -14,6 +14,8 @@ module "networking" {
   vpc_id     = module.vpc.vpc_hub_id
   public_subnets  = var.public_subnets
   private_subnets = var.private_subnets
+  availability_zones = var.availability_zones
+
 }
 
 module "compute" {
@@ -36,6 +38,7 @@ resource "aws_lb" "app_lb_multitier" {
   load_balancer_type = "application"
   security_groups    = [module.security.security_group_id]
   subnets            = [module.networking.public_subnets[0]]
+
 
   enable_deletion_protection = false
 

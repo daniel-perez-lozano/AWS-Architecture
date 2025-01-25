@@ -39,3 +39,8 @@ variable "ami" {
   description = "AMI ID"
   type        = string
 }
+variable "availability_zones" {
+  description = "List of availability zones"
+  type        = list(string)
+  default     = ["eu-north-1a", "eu-north-1b"]
+}
