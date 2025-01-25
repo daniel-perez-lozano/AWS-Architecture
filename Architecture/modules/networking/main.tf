@@ -1,3 +1,13 @@
+variable "vpc_id" {
+  description = "VPC ID"
+  type        = string
+}
+
+variable "public_subnets" {
+  description = "List of public subnet CIDR blocks"
+  type        = list(string)
+}
+
 resource "aws_subnet" "public" {
   count             = length(var.public_subnets)
   vpc_id            = var.vpc_id
@@ -8,19 +18,6 @@ resource "aws_subnet" "public" {
   }
 }
 
-resource "aws_subnet" "private" {
-  count      = length(var.private_subnets)
-  vpc_id     = var.vpc_id
-  cidr_block = var.private_subnets[count.index]
-  tags = {
-    Name = "private-subnet-${count.index + 1}"
-  }
-}
-
 output "public_subnets" {
   value = aws_subnet.public[*].id
-}
-
-output "private_subnets" {
-  value = aws_subnet.private[*].id
 }
