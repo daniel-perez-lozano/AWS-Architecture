@@ -19,3 +19,21 @@ variable "private_subnets" {
   description = "List of private subnet CIDRs"
   type        = list(string)
 }
+
+variable "key_pair" {
+  description = "Name of the key pair to use for EC2 instances"
+  type        = string
+}
+
+variable "access_key" {
+  description = "AWS access key"
+  type = string
+  default = ""
+}
+
+variable "secret_key" {
+  description = "AWS secret key"    
+  type = string
+  default = ""
+  
+}
