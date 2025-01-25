@@ -18,7 +18,7 @@ module "networking" {
 
 module "compute" {
   source          = "./modules/compute"
-  ami = var.ami
+  ami             = var.ami
   instance_type   = var.instance_type
   private_subnets = module.networking.private_subnets
   key_pair        = var.key_pair
@@ -45,7 +45,7 @@ resource "aws_lb" "app_lb_multitier" {
 }
 
 resource "aws_lb" "app_lb_k8s" {
-  name               = "app-lb-2"
+  name               = "app-lb-k8s"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [module.security.security_group_id]
@@ -54,6 +54,7 @@ resource "aws_lb" "app_lb_k8s" {
   enable_deletion_protection = false
 
   tags = {
-    Name = "app-lb-2"
+    Name = "app-lb-k8s"
   }
 }
+

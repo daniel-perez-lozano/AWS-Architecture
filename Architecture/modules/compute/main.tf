@@ -28,7 +28,7 @@ variable "key_pair" {
   type        = string
 }
 
-resource "aws_launch_configuration" "launch_config_front" {
+resource "aws_launch_configuration" "launch_config_app" {
   name          = "app-launch-configuration"
   image_id      = var.ami
   instance_type = var.instance_type
@@ -44,7 +44,7 @@ resource "aws_autoscaling_group" "scalgrpfront_north1a" {
   max_size             = 3
   min_size             = 1
   vpc_zone_identifier  = var.private_subnets
-  launch_configuration = aws_launch_configuration.app.id
+  launch_configuration = aws_launch_configuration.launch_config_app.id
 
   tag {
     key                 = "Name"
@@ -54,5 +54,5 @@ resource "aws_autoscaling_group" "scalgrpfront_north1a" {
 }
 
 output "autoscaling_group_name" {
-  value = aws_autoscaling_group.app.name
+  value = aws_autoscaling_group.scalgrpfront_north1a.name
 }

@@ -1,19 +1,3 @@
-variable "vpc_id" {
-  description = "VPC ID"
-  type        = string
-}
-
-variable "public_subnets" {
-  description = "List of public subnet CIDR blocks"
-  type        = list(string)
-}
-
-variable "private_subnets" {
-  description = "List of private subnet CIDR blocks"
-  type        = list(string)
-}
-
-
 resource "aws_subnet" "public" {
   count             = length(var.public_subnets)
   vpc_id            = var.vpc_id

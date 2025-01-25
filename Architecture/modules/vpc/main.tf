@@ -6,6 +6,7 @@ resource "aws_vpc" "vpc_app" {
     Name = "app_vpc"
   }
 }
+
 resource "aws_vpc" "vpc_hub" {
   cidr_block           = "172.17.0.0/20"
   enable_dns_support   = true
@@ -14,9 +15,11 @@ resource "aws_vpc" "vpc_hub" {
     Name = "hub_vpc"
   }
 }
+
 resource "aws_internet_gateway" "igw_hub" {
   vpc_id = aws_vpc.vpc_app.id
 }
+
 resource "aws_internet_gateway" "igw_app" {
   vpc_id = aws_vpc.vpc_hub.id
 }

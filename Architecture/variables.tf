@@ -34,3 +34,8 @@ variable "secret_key" {
   description = "AWS secret key"    
   type = string  
 }
+
+variable "ami" {
+  description = "AMI ID"
+  type        = string
+}
