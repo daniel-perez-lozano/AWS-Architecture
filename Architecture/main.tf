@@ -1,3 +1,4 @@
+// terraform plan -var-file="secrets.tfvars"
 provider "aws" {
   region     = var.region
   access_key = var.access_key
@@ -10,8 +11,8 @@ module "vpc" {
 
 module "networking" {
   source     = "./modules/networking"
-  vpc_id     = module.vpc.vpc_id
-  public_subnets  = var.public_subnets ["10.0.0.0/24", "10.0.8.0/24"]
+  vpc_id     = module.vpc.vpc_hub_id
+  public_subnets  = var.public_subnets
   private_subnets = var.private_subnets
 }
 
