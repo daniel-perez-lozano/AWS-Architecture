@@ -10,12 +10,21 @@ variable "instance_type" {
   default     = "t3.micro"
 }
 
-variable "public_subnets" {
+variable "app_public_subnets" {
   description = "List of public subnet CIDRs"
   type        = list(string)
 }
 
-variable "private_subnets" {
+variable "hub_private_subnets" {
+  description = "List of private subnet CIDRs"
+  type        = list(string)
+}
+variable "hub_public_subnets" {
+  description = "List of public subnet CIDRs"
+  type        = list(string)
+}
+
+variable "app_private_subnets" {
   description = "List of private subnet CIDRs"
   type        = list(string)
 }

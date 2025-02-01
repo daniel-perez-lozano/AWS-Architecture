@@ -10,10 +10,11 @@ module "vpc" {
 }
 
 module "networking" {
-  source     = "./modules/networking"
-  vpc_id     = module.vpc.vpc_hub_id
-  public_subnets  = var.public_subnets
-  private_subnets = var.private_subnets
+  source = "./modules/networking"
+  hub_vpc_id = module.vpc.hub_vpc_id
+  app_vpc_id = module.vpc.app_vpc_id
+  app_private_subnets = var.app_private_subnets
+  app_public_subnets = var.app_public_subnets
   availability_zones = var.availability_zones
 
 }
@@ -22,14 +23,15 @@ module "compute" {
   source          = "./modules/compute"
   ami             = var.ami
   instance_type   = var.instance_type
-  private_subnets = module.networking.private_subnets
+  private_subnets = module.networking.app_private_subnets
   key_pair        = var.key_pair
 }
 
 
 module "security" {
   source          = "./modules/security"
-  vpc_id          = module.vpc.vpc_hub_id
+  app_vpc_id      = module.vpc.app_vpc_id
+  hub_vpc_id      = module.vpc.hub_vpc_id
   }
 
 
@@ -38,8 +40,8 @@ resource "aws_lb" "app_lb_front" {
   name               = "app-lb-front"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [module.security.security_group_id]
-  subnets            = [module.networking.public_subnets[0]]
+  security_groups    = [module.security.app_security_group_id]
+  subnets            = [module.networking.app_public_subnets[0]]
 
 
   enable_deletion_protection = false
@@ -53,8 +55,8 @@ resource "aws_lb" "app_lb_k8s" {
   name               = "app-lb-k8s"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [module.security.security_group_id]
-  subnets            = [module.networking.public_subnets[1]]
+  security_groups    = [module.security.app_security_group_id]
+  subnets            = [module.networking.app_public_subnets[1]]
 
   enable_deletion_protection = false
 
@@ -67,8 +69,8 @@ resource "aws_lb" "app_lb_bck" {
   name               = "app-lb-bck"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [module.security.security_group_id]
-  subnets            = [for subnet in module.networking.private_subnets : subnet if cidrsubnet(subnet, 8, 0) == "10.0.3.0/24"]
+  security_groups    = [module.security.app_security_group_id]
+  subnets            = [for subnet in module.networking.app_private_subnets : subnet if cidrsubnet(subnet, 8, 0) == "10.0.3.0/24"]
 
   enable_deletion_protection = false
 
@@ -86,7 +88,7 @@ resource "aws_rds_cluster" "aurora_cluster" {
   backup_retention_period = 5
   preferred_backup_window = "07:00-09:00"
   db_subnet_group_name    = aws_db_subnet_group.aurora_subnet_group.name
-  vpc_security_group_ids  = [module.security.security_group_id]
+  vpc_security_group_ids  = [module.security.app_security_group_id]
   scaling_configuration {
     auto_pause               = true
     max_capacity             = 2
@@ -108,7 +110,7 @@ resource "aws_rds_cluster_instance" "aurora_instance" {
 
 resource "aws_db_subnet_group" "aurora_subnet_group" {
   name       = "aurora-subnet-group"
-  subnet_ids = [for subnet in module.networking.private_subnets : subnet if cidrsubnet(subnet, 8, 0) == "10.0.6.0/24"]
+  subnet_ids = [for subnet in module.networking.app_private_subnets : subnet if cidrsubnet(subnet, 8, 0) == "10.0.6.0/24"]
   tags = {
     Name = "aurora-subnet-group"
   }
@@ -119,8 +121,8 @@ module "eks" {
   version         = "17.1.0"
   cluster_name    = "my-eks-cluster"
   cluster_version = "1.21"
-  subnets         = [for subnet in module.networking.private_subnets : subnet if cidrsubnet(subnet, 8, 0) == "10.0.7.0/24" || cidrsubnet(subnet, 8, 0) == "10.0.9.0/24"]
-  vpc_id          = module.vpc.vpc_app_id
+  subnets         = [for subnet in module.networking.app_private_subnets : subnet if cidrsubnet(subnet, 8, 0) == "10.0.7.0/24" || cidrsubnet(subnet, 8, 0) == "10.0.9.0/24"]
+  vpc_id          = module.vpc.app_vpc_id
 
   node_groups = {
     eks_nodes = {

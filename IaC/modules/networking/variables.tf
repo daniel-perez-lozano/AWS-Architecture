@@ -1,14 +1,17 @@
-variable "vpc_id" {
+variable "app_vpc_id" {
   description = "VPC ID"
   type        = string
 }
-
-variable "public_subnets" {
+variable "hub_vpc_id" {
+  description = "VPC ID"
+  type        = string
+}
+variable "app_public_subnets" {
   description = "List of public subnet CIDR blocks"
   type        = list(string)
 }
 
-variable "private_subnets" {
+variable "app_private_subnets" {
   description = "List of private subnet CIDR blocks"
   type        = list(string)
 }

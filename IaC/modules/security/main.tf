@@ -1,5 +1,5 @@
-resource "aws_security_group" "allow_http" {
-  vpc_id = var.vpc_id
+resource "aws_security_group" "app_allow_http" {
+  vpc_id = var.app_vpc_id
 
   ingress {
     from_port   = 80
@@ -20,8 +20,8 @@ resource "aws_security_group" "allow_http" {
   }
 }
 
-resource "aws_security_group" "waf_sg" {
-  vpc_id = var.vpc_id
+resource "aws_security_group" "app_waf_sg" {
+  vpc_id = var.app_vpc_id
 
   ingress {
     from_port   = 443
@@ -91,6 +91,6 @@ resource "aws_security_group" "waf_sg" {
   }
 }
 
-output "security_group_id" {
-  value = aws_security_group.waf_sg.id
+output "app_security_group_id" {
+  value = aws_security_group.app_waf_sg.id
 }
